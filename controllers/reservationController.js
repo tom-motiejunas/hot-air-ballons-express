@@ -1,10 +1,32 @@
 const Reservation = require("../models/reservationModel");
+const Timetable = require("../models/timetableModel");
 const AppError = require("../utils/appError");
 
 const reservationController = {};
 
 reservationController.addReservation = async (req, res, next) => {
   try {
+    const timetableDoc = await Timetable.findOne({
+      dayOfTheWeek: { $eq: req.body.dayOfTheWeek },
+    });
+
+    if (!timetableDoc) {
+      return next(
+        new AppError(
+          404,
+          "fail",
+          "Couldnt find timetable from specified day of the week"
+        )
+      );
+    }
+
+    if (timetableDoc.reservationsLeft <= 0) {
+      return next(new AppError(400, "fail", "No reservations left"));
+    }
+
+    timetableDoc.reservationsLeft = timetableDoc.reservationsLeft - 1;
+    timetableDoc.save();
+
     const doc = await Reservation.create(req.body);
 
     res.status(201).json({

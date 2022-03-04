@@ -6,16 +6,14 @@ const flightPathSchema = new mongoose.Schema({
     endPoint: String,
   },
 });
-const daySchema = new mongoose.Schema({
+const timetableSchema = new mongoose.Schema({
   flightPath: [flightPathSchema],
   businessHours: {
     startHours: String,
     endHours: String,
   },
-  dayOfWeek: String,
-});
-const timetableSchema = new mongoose.Schema({
-  timetableDates: [daySchema],
+  reservationsLeft: Number,
+  dayOfTheWeek: String,
 });
 
 const Timetable = mongoose.model("timetable", timetableSchema);

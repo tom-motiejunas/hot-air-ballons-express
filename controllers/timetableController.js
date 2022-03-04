@@ -26,7 +26,7 @@ timetableController.getTimetable = async (req, res, next) => {
 timetableController.getDayOfWeekTimetable = async (req, res, next) => {
   try {
     const timetableDoc = await Timetable.findOne({
-      dayOfTheWeek: req.params.dayOfTheWeek,
+      dayOfTheWeek: { $eq: req.params.dayOfTheWeek },
     });
 
     if (!timetableDoc) {
@@ -46,6 +46,26 @@ timetableController.getDayOfWeekTimetable = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+timetableController.updateDayOfWeekTimetable = async (req, res, next) => {
+  try {
+    const timetableDoc = await Timetable.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!timetableDoc) {
+      return new AppError(404, "fail", "Couldnt find specified timetable");
+    }
+    res.status(200).json({
+      status: "success",
+      data: timetableDoc,
+    });
+  } catch (err) {}
 };
 
 module.exports = timetableController;

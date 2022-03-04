@@ -7,6 +7,10 @@ router.get(
   "/getDayOfWeekTimetable/:dayOfTheWeek",
   timetableController.getDayOfWeekTimetable
 );
+router.get(
+  "/updateDayOfWeekTimetable/:id",
+  timetableController.updateDayOfWeekTimetable
+);
 router.get("/getTimetable", timetableController.getTimetable);
 
 module.exports = router;

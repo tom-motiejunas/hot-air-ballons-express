@@ -17,9 +17,12 @@ const reservationSchema = new mongoose.Schema({
     startingPoint: String,
     endPoint: String,
   },
-  flightDate: {
-    type: Date,
-    required: [true, "Please enter the day the flight will take place"],
+  dayOfTheWeek: {
+    type: String,
+    required: [
+      true,
+      "Please enter on which day of the week the flight will take place",
+    ],
   },
 });
 
